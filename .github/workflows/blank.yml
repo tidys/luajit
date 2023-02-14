@@ -73,4 +73,4 @@ jobs:
         with:
           file: "src/libluajit.a"
           tag: ${{ github.ref }}
-          draft: false
+          draft: false 
