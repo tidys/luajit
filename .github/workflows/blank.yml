@@ -27,7 +27,5 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a multi-line script
-        run: 
-          echo "666666666666"
-          ./build-r14-linux.sh
+        run: ./build-r14-linux.sh
           # chmod +x build-r14-linux.sh
