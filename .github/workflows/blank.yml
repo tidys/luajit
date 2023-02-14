@@ -55,15 +55,22 @@ jobs:
 
 
 
-      - name: Upload Lib to release
-        uses: svenstaro/upload-release-action@v2
+      # - name: Upload Lib to release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: "src/libluajit.a"
+      #     asset_name: mything
+      #     tag: ${{ github.ref }}
+      #     overwrite: true
+      #     body: "This is my release text"
+
+
+      - name: Upload to release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
           file: "src/libluajit.a"
-          asset_name: mything
           tag: ${{ github.ref }}
-          overwrite: true
-          body: "This is my release text"
-
-
-     
+          draft: false
