@@ -51,7 +51,7 @@ jobs:
         run: ./build-r14-linux.sh
 
       - name: Run a multi-line script
-        run: ls -l
+        run: cd src && ls -l
 
       - name: Upload to release
         uses: xresloader/upload-to-github-release@v1
