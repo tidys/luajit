@@ -49,6 +49,15 @@ jobs:
       # Runs a single command using the runners shell
       - name: Run a multi-line script
         run: ./build-r14-linux.sh
-        
+
       - name: Run a multi-line script
         run: ls -l
+
+      - name: Upload to release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "src/libluajit.a"
+          tags: true
+          draft: true
