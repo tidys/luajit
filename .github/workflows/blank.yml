@@ -27,7 +27,7 @@ jobs:
       
       # Runs a single command using the runners shell
       - name: Run a multi-line script
-        run: ll
+        run: ls -l
 
       # Runs a single command using the runners shell
       - name: Run a multi-line script
