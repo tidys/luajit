@@ -29,4 +29,5 @@ jobs:
       - name: Run a one-line script
         run: 
           chmod +x ./build-r14-linux.sh
+          echo "666666666666"
           ./build-r14-linux.sh
