@@ -1,5 +1,7 @@
 # Android/ARM, armeabi-v7a (ARMv7 VFP), Android 4.1+ (JB)
 make clean
+$(info "build r14 linux ...")
+
 NDK=F:/android-ndk-r14b-linux
 NDKBIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin
 NDKABI=21
