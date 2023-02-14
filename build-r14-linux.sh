@@ -2,7 +2,8 @@
 make clean
 $(info "build r14 linux ...")
 
-NDK=F:/android-ndk-r14b-linux
+NDK=$(pwd)/android-ndk-r14b
+info(info $NDK)
 NDKBIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin
 NDKABI=21
 NDKF="--sysroot $NDK/platforms/android-$NDKABI/arch-arm"
