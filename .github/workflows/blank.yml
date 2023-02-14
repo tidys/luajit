@@ -24,7 +24,13 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-      
+
+      - name: Run a multi-line script
+        run: wget https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
+
+      - name: Run a multi-line script
+        run: ls -l
+
       - name: Run a multi-line script
         run: chmod +x ./build-r14-linux.sh
 
