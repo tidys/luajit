@@ -25,6 +25,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       
+      - name: Run a multi-line script
+        run: chmod +x ./build-r14-linux.sh
+
       # Runs a single command using the runners shell
       - name: Run a multi-line script
         run: ls -l
