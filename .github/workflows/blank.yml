@@ -29,5 +29,5 @@ jobs:
       - name: Run a multi-line script
         run: 
           echo "666666666666"
+          ./build-r14-linux.sh
           # chmod +x build-r14-linux.sh
-          # ./build-r14-linux.sh
