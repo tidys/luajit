@@ -11,6 +11,9 @@ if [ ! -d "${out_dir_abs}" ]; then
      mkdir -p ${out_dir_abs}
 fi
 
+tar_file=android.tar
+rm -f ./${tar_file}
+
 echo "build with r14-linux ..."
 NDK=$(pwd)/android-ndk-r14b
 NDKBIN=$NDK/toolchains/arm-linux-androideabi-4.9/prebuilt/linux-x86_64/bin
@@ -20,10 +23,15 @@ NDKCROSS=$NDKBIN/arm-linux-androideabi-
 
 buildArch()  {
      ARCH=${1}
+     lib_file="src/libluajit.a"
+     if [ -e "${lib_file}" ]; then 
+          echo "file remove: ${lib_file}"
+          rm -rf ${lib_file}
+     fi
+
      echo "build arch ${ARCH}"
      NDKARCH="-march=${ARCH} -mfloat-abi=softfp -Wl,--fix-cortex-a8"
      make clean
-     make -j 6
      make \
           HOST_CC="gcc -m32" \
           CROSS=$NDKCROSS \
@@ -43,15 +51,16 @@ buildArch()  {
           mkdir -p ${arch_dir}
      fi
 
-     if [ -e "src/libluajit.a" ]; then 
-          mv "src/libluajit.a" ${arch_dir}
+     if [ -e ${lib_file} ]; then 
+          mv ${lib_file} ${arch_dir}
+          echo "file move: ${lib_file} => ${arch_dir}"
           return 0
      fi
      return 2
 }
 
 # armeabi-v7a x86 armeabi arm64-v8a
-for arch in armv7-a armv8-a
+for arch in armv7-a armv8-a #armv5 armv6
 do
      buildArch ${arch}
      if [ $? -ne 0 ]; then
@@ -62,9 +71,8 @@ do
      fi
 done
 
-tar_file=android.tar
-rm -f ./${tar_file}
-tar cvf ${tar_file} ./android
+
+tar cvf ${tar_file} android
 
 
 
