@@ -13,29 +13,15 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - uses: actions/checkout@v3
-      - name: Install gcc-multilib
-        run: |
-          sudo apt update
-          sudo apt install gcc-multilib -y
-      - name: Run a multi-line script
-        run: cd src && ls -l
 
-      # - name: Upload Lib to release
-      #   uses: svenstaro/upload-release-action@v2
-      #   with:
-      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
-      #     file: "src/libluajit.a"
-      #     asset_name: mything
-      #     tag: ${{ github.ref }}
-      #     overwrite: true
-      #     body: "This is my release text"
+      - name: build-android
+        run: sudo ./build-android.sh
 
-      # https://hedzr.com/tech/nology/github-actions-resource-not-accesible-by-integration/ 
       - name: Upload to release
         uses: xresloader/upload-to-github-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          file: "src/libluajit.a"
+          file: "android.tar"
           tag: false
           draft: false 
