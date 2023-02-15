@@ -18,14 +18,59 @@ jobs:
   # This workflow contains a single job called "build"
   build:
     # The type of runner that the job will run on
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
+      - name: Install gcc-multilib
+        run: |
+          sudo apt update
+          sudo apt install gcc-multilib -y
+
+      - name: Run a multi-line script
+        run: wget https://dl.google.com/android/repository/android-ndk-r14b-linux-x86_64.zip
+
+      - name: Run a multi-line script
+        run: unzip android-ndk-r14b-linux-x86_64.zip -d ./
+
+      - name: Run a multi-line script
+        run: ls -l
+
+      - name: Run a multi-line script
+        run: chmod +x ./build-r14-linux.sh
+
+      # Runs a single command using the runners shell
+      - name: Run a multi-line script
+        run: ls -l
+
       # Runs a single command using the runners shell
       - name: Run a multi-line script
         run: ./build-r14-linux.sh
-          # chmod +x build-r14-linux.sh
+
+      - name: Run a multi-line script
+        run: cd src && ls -l
+
+
+
+      # - name: Upload Lib to release
+      #   uses: svenstaro/upload-release-action@v2
+      #   with:
+      #     repo_token: ${{ secrets.GITHUB_TOKEN }}
+      #     file: "src/libluajit.a"
+      #     asset_name: mything
+      #     tag: ${{ github.ref }}
+      #     overwrite: true
+      #     body: "This is my release text"
+
+      # https://hedzr.com/tech/nology/github-actions-resource-not-accesible-by-integration/ 
+      - name: Upload to release
+        uses: xresloader/upload-to-github-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          file: "src/libluajit.a"
+          tag: ${{ github.ref }}
+          draft: false 
