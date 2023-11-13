@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.5)
+project(minilua C)
+add_executable(minilua ${LUAJIT_DIR}/src/host/minilua.c)
+target_link_libraries(minilua ${LIBM_LIBRARIES})
+set(cmd ${LUAJIT_DIR}/dynasm/dynasm.lua -LN -D WIN -D JIT -D FFI -o ${LUAJIT_DIR}/src/host/buildvm_arch.h ${LUAJIT_DIR}/src/vm_x86.dasc)
+add_custom_command(TARGET minilua POST_BUILD COMMAND minilua ${cmd})
