@@ -1,6 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-set(app_name luajit)
-project(${app_name})
+project(luajit)
 set(LUAJIT_DIR ${CMAKE_CURRENT_LIST_DIR})
 
 # add mini exe
@@ -9,10 +8,25 @@ add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/host/minilua/)
 # add buildVM
 add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/host/buildVM/)
 
-file(GLOB_RECURSE src ${CMAKE_CURRENT_LIST_DIR}/src/lj_*.c ${CMAKE_CURRENT_LIST_DIR}/src/lib_*.c)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /nologo /c /O2 /W3 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_STDIO_INLINE=__declspec(dllexport)__inline /arch:SSE2")
+add_executable(luajit ${LUAJIT_DIR}/src/luajit.c)
 
-add_library(${app_name} SHARED ${src})
-set_target_properties(${app_name} PROPERTIES OUTPUT_NAME "lua51")
-target_include_directories(${app_name} PUBLIC ${CMAKE_CURRENT_LIST_DIR}/src)
+# add lua52.dll
+set(PREBUILD true)
 
-# target_compile_options(${app_name} PUBLIC "/O2")
+if(${PREBUILD})
+    add_library(lua51 SHARED IMPORTED GLOBA)
+    set_target_properties(lua51 PROPERTIES
+        IMPORTED_IMPLIB ${LUAJIT_DIR}/src/lua51.lib
+        IMPORTED_LOCATION ${LUAJIT_DIR}/src/lua51.dll
+    )
+    file(GLOB lua51dll ${LUAJIT_DIR}/src/*.dll)
+    add_custom_command(TARGET luajit PRE_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${lua51dll} $(OutDir))
+else()
+    add_subdirectory(${CMAKE_CURRENT_LIST_DIR}/host/lua51)
+endif()
+
+target_link_libraries(luajit lua51)
+
+# add_custom_command(TARGET luajit PRE_BUILD COMMAND cl  /nologo /c /O2 /W3 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_STDIO_INLINE="__declspec(dllexport)__inline" /arch:SSE2 /MD /DLUA_BUILD_AS_DLL ${LUAJIT_DIR}/src/lj_*.c ${LUAJIT_DIR}/src/lib_*.c /Fo ${LUAJIT_DIR}/src/)
+# add_custom_command(TARGET luajit PRE_BUILD COMMAND link /nologo /release /DLL /out:${LUAJIT_DIR}/src/lua51.dll ${LUAJIT_DIR}/src/lj_*.obj ${LUAJIT_DIR}/src/lib_*.obj)

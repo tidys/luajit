@@ -1,0 +1,1 @@
+call msvcbuild.bat debug
