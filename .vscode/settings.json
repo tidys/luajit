@@ -2,5 +2,10 @@
     "files.exclude": {
         "**/*.o": true
     },
-    "editor.formatOnSave": false
+    "editor.formatOnSave": false,
+    "lldb.launch.relativePathBase": "${workspaceFolder}/src",
+    "lldb.displayFormat": "auto",
+    "lldb.showDisassembly": "auto",
+    "lldb.dereferencePointers": true,
+    "lldb.consoleMode": "commands"
 }
