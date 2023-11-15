@@ -14,7 +14,7 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} /nologo /c /O2 /W3 /D_CRT_SECURE_NO_DEPRECAT
 add_executable(luajit ${LUAJIT_DIR}/src/luajit.c)
 target_include_directories(luajit PUBLIC ${LUAJIT_DIR}/src)
 
-# add lua52.dll
+# add lua51.dll
 if(true)
     add_library(lua51 SHARED IMPORTED GLOBA)
     set_target_properties(lua51 PROPERTIES
@@ -28,6 +28,6 @@ if(true)
 endif()
 
 target_link_libraries(luajit lua51)
-
+set_target_properties(luajit minilua luajitSourceCode buildvm PROPERTIES FOLDER "luajit")
 # add_custom_command(TARGET luajit PRE_BUILD COMMAND cl  /nologo /c /O2 /W3 /D_CRT_SECURE_NO_DEPRECATE /D_CRT_STDIO_INLINE="__declspec(dllexport)__inline" /arch:SSE2 /MD /DLUA_BUILD_AS_DLL ${LUAJIT_DIR}/src/lj_*.c ${LUAJIT_DIR}/src/lib_*.c /Fo ${LUAJIT_DIR}/src/)
 # add_custom_command(TARGET luajit PRE_BUILD COMMAND link /nologo /release /DLL /out:${LUAJIT_DIR}/src/lua51.dll ${LUAJIT_DIR}/src/lj_*.obj ${LUAJIT_DIR}/src/lib_*.obj)
