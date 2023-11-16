@@ -22,7 +22,7 @@
 #include "lj_strscan.h"
 #include "lj_strfmt.h"
 #include "lj_lib.h"
-
+#include "lib_hook.h"
 /* -- Metamethod handling ------------------------------------------------- */
 
 /* String interning of metamethod names for fast indexing. */
@@ -49,6 +49,7 @@ cTValue *lj_meta_cache(GCtab *mt, MMS mm, GCstr *name)
   cTValue *mo = lj_tab_getstr(mt, name);
   lj_assertX(mm <= MM_FAST, "bad metamethod %d", mm);
   if (!mo || tvisnil(mo)) {  /* No metamethod? */
+    emitHookFunction();
     mt->nomm |= (uint8_t)(1u<<mm);  /* Set negative cache flag. */
     return NULL;
   }

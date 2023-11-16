@@ -16,7 +16,7 @@
 #include "lauxlib.h"
 #include "lualib.h"
 #include "luajit.h"
-
+#include "lib_hook.h"
 #include "lj_arch.h"
 
 #if LJ_TARGET_POSIX
@@ -565,9 +565,12 @@ static int pmain(lua_State *L)
   }
   return 0;
 }
-
+void myFunction() {
+    printf("hook");
+}
 int main(int argc, char **argv)
 {
+    setHookFunction(&myFunction);
   int status;
   lua_State *L;
   if (!argv[0]) argv = empty_argv; else if (argv[0][0]) progname = argv[0];
